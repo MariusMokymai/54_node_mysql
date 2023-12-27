@@ -13,5 +13,10 @@ ENGINE = InnoDB;
 -- insert 2 rows
 INSERT INTO `posts` (`title`, `author`, `date`, `content`) 
 VALUES 
-('Post 1', 'James Band', current_timestamp(), 'Body of post 1'), 
-('Post 2', 'Jane Dow', '2023-12-14', 'Body of post 2')
+('Post 3', 'James Band', '2023-12-24', 'Body of post 3'), 
+('Post 4', 'Jane Dow', '2023-12-25', 'Body of post 4')
+('Post 5', 'Jane Dow', '2023-12-25', 'Body of post 5')
+
+-- get all posts
+
+SELECT * FROM `posts`
