@@ -41,6 +41,29 @@ app.get('/api/posts', async (req, res) => {
 });
 
 // GET /api/posts/2 - get post su id 2
+app.get('/api/posts/:postId', async (req, res) => {
+  const { postId } = req.params;
+  let conn;
+  try {
+    conn = await mysql.createConnection(dbConfig);
+    const sql = `SELECT * FROM posts WHERE post_id=${postId}`;
+    const [rows] = await conn.query(sql);
+    // radom viena irasa
+    if (rows.length === 1) {
+      res.json(rows[0]);
+      return;
+    }
+    // radom daugiau nei viena, neradom nei vieno
+    res.status(400).json(rows);
+  } catch (error) {
+    console.warn('single post err', error);
+    res.status(500).json('something wrong');
+  } finally {
+    // atsijungiam
+    if (conn) conn.end();
+    // connection?.end();
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
