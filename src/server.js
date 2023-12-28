@@ -46,8 +46,8 @@ app.get('/api/posts/:postId', async (req, res) => {
   let conn;
   try {
     conn = await mysql.createConnection(dbConfig);
-    const sql = `SELECT * FROM posts WHERE post_id=${postId}`;
-    const [rows] = await conn.query(sql);
+    const sql = 'SELECT * FROM posts WHERE post_id=?';
+    const [rows] = await conn.execute(sql, [postId]);
     // radom viena irasa
     if (rows.length === 1) {
       res.json(rows[0]);
@@ -61,7 +61,7 @@ app.get('/api/posts/:postId', async (req, res) => {
   } finally {
     // atsijungiam
     if (conn) conn.end();
-    // connection?.end();
+    // conn?.end();
   }
 });
 
