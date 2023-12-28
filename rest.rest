@@ -9,3 +9,14 @@ GET http://localhost:3000/api/posts/3 OR 1=1
 
 ### DELETE single post
 DELETE  http://localhost:3000/api/posts/7
+
+### POST CREATE POST
+POST  http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+  "title": "POST from rest",
+  "author": "James Band",
+  "date": "2000-12-24",
+  "content": "Some important message...."
+}

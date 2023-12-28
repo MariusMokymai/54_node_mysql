@@ -11,7 +11,7 @@ PRIMARY KEY (`post_id`))
 ENGINE = InnoDB;
 
 -- insert 2 rows
-INSERT INTO `posts` (`title`, `author`, `date`, `content`) 
+INSERT INTO posts (title, author, date, content) 
 VALUES 
 ('Post 3', 'James Band', '2023-12-24', 'Body of post 3'), 
 ('Post 4', 'Jane Dow', '2023-12-25', 'Body of post 4'),

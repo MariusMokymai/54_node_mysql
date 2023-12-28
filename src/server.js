@@ -94,6 +94,32 @@ app.delete('/api/posts/:postId', async (req, res) => {
   }
 });
 
+// POST /api/posts - sukurtu nauja posta
+app.post('/api/posts', async (req, res) => {
+  console.log('req.body ===', req.body);
+  const { title, author, date, content } = req.body;
+
+  // validation
+
+  let conn;
+  try {
+    conn = await mysql.createConnection(dbConfig);
+    const sql = `
+    INSERT INTO posts (title, author, date, content) 
+    VALUES (?,?,?,?)
+    `;
+    const [rowOb] = await conn.execute(sql, [title, author, date, content]);
+    res.json(rowOb);
+  } catch (error) {
+    console.warn('single post err', error);
+    res.status(500).json('something wrong');
+  } finally {
+    // atsijungiam
+    if (conn) conn.end();
+    // conn?.end();
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
