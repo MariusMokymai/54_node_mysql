@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
+const { dbConfig } = require('./config');
 
 const app = express();
 
@@ -20,23 +21,23 @@ app.get('/', (req, res) => {
 // GET /api/posts - get all posts
 // SELECT * FROM `posts`
 app.get('/api/posts', async (req, res) => {
+  let connection;
   try {
     // prisijungiam
-    const connection = await mysql.createConnection({
-      database: 'bit_main',
-      host: 'localhost',
-      user: 'root',
-      password: '',
-    });
+    connection = await mysql.createConnection(dbConfig);
     // atlikti veiksma
-    const [rows, fields] = await connection.query('SELECT * FROM `posts`');
+    const sql = 'SELECT * FROM posts';
+    const [rows, fields] = await connection.query(sql);
     res.json(rows);
-    // atsijungiam
-    connection.end();
   } catch (error) {
     console.warn('/api/posts', error);
     res.status(500).json('something wrong');
+  } finally {
+    // atsijungiam
+    if (connection) connection.end();
+    // connection?.end();
   }
+  console.log('after finnaly');
 });
 
 // GET /api/posts/2 - get post su id 2
