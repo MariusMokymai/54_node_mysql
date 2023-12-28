@@ -65,6 +65,35 @@ app.get('/api/posts/:postId', async (req, res) => {
   }
 });
 
+// DELETE /api/posts/2 - get post su id 2
+app.delete('/api/posts/:postId', async (req, res) => {
+  const { postId } = req.params;
+  let conn;
+  try {
+    conn = await mysql.createConnection(dbConfig);
+    const sql = 'DELETE FROM posts WHERE post_id=?';
+    const [rows] = await conn.execute(sql, [postId]);
+    console.log('rows ===', rows);
+    // pavyko istrinti jei
+    if (rows.affectedRows === 1) {
+      res.json({ msg: `post with id ${postId} was deleted` });
+      return;
+    }
+    // rows.affectedRows !== 1
+    res.status(400).json({
+      msg: 'no rows afected',
+      rows,
+    });
+  } catch (error) {
+    console.warn('single post err', error);
+    res.status(500).json('something wrong');
+  } finally {
+    // atsijungiam
+    if (conn) conn.end();
+    // conn?.end();
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
