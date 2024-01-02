@@ -1,13 +1,13 @@
 const mysql = require('mysql2/promise');
 const { dbConfig } = require('./config');
 
-async function getSqlData(sql) {
+async function getSqlData(sql, argArr = []) {
   let connection;
   try {
     // prisijungiam
     connection = await mysql.createConnection(dbConfig);
     // atlikti veiksma
-    const [rows] = await connection.query(sql);
+    const [rows] = await connection.execute(sql, argArr);
     return [rows, null];
   } catch (error) {
     console.warn('getSqlData', error);
