@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const { dbConfig } = require('./config');
+const { getSqlData } = require('./helper');
 
 const app = express();
 
@@ -21,23 +22,36 @@ app.get('/', (req, res) => {
 // GET /api/posts - get all posts
 // SELECT * FROM `posts`
 app.get('/api/posts', async (req, res) => {
-  let connection;
-  try {
-    // prisijungiam
-    connection = await mysql.createConnection(dbConfig);
-    // atlikti veiksma
-    const sql = 'SELECT * FROM posts';
-    const [rows, fields] = await connection.query(sql);
-    res.json(rows);
-  } catch (error) {
-    console.warn('/api/posts', error);
+  const sql = 'SELECT * FROM posts';
+
+  const [postsArr, error] = await getSqlData(sql);
+
+  if (error) {
+    // euston we have a proplem
+    console.log('error ===', error);
     res.status(500).json('something wrong');
-  } finally {
-    // atsijungiam
-    if (connection) connection.end();
-    // connection?.end();
+    return;
   }
-  console.log('after finnaly');
+
+  console.log('postsArr ===', postsArr);
+  res.json(postsArr);
+  // let connection;
+  // try {
+  //   // prisijungiam
+  //   connection = await mysql.createConnection(dbConfig);
+  //   // atlikti veiksma
+  //   const sql = 'SELECT * FROM posts';
+  //   const [rows, fields] = await connection.query(sql);
+  //   res.json(rows);
+  // } catch (error) {
+  //   console.warn('/api/posts', error);
+  //   res.status(500).json('something wrong');
+  // } finally {
+  //   // atsijungiam
+  //   if (connection) connection.end();
+  //   // connection?.end();
+  // }
+  // console.log('after finnaly');
 });
 
 // GET /api/posts/2 - get post su id 2
@@ -71,7 +85,7 @@ app.delete('/api/posts/:postId', async (req, res) => {
   let conn;
   try {
     conn = await mysql.createConnection(dbConfig);
-    const sql = 'DELETE FROM posts WHERE post_id=?';
+    const sql = 'DELETE FROM posts WHERE post_id=? LIMIT 1';
     const [rows] = await conn.execute(sql, [postId]);
     console.log('rows ===', rows);
     // pavyko istrinti jei
