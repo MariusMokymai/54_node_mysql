@@ -18,5 +18,10 @@ Content-Type: application/json
   "title": "POST from rest",
   "author": "James Band",
   "date": "2000-12-24",
-  "content": "Some important message...."
+  "content": "Some important message....",
+  "cat_id": 1
 }
+
+
+### get all categories
+GET http://localhost:3000/api/categories
