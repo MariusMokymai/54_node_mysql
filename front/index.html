@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+  <!-- CSS Reset -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+
+  <!-- Milligram CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+  <title>Document</title>
+  <script src="front.js" defer></script>
+</head>
+
+<body class="container">
+
+  <h1>Create post</h1>
+  <!-- {
+    "title": "POST from rest",
+    "author": "James Band",
+    "date": "2000-12-24",
+    "content": "Some important message....",
+    "cat_id": 1
+  } -->
+  <form>
+    <input type="text" name="title" id="title" placeholder="title">
+    <input type="text" name="author" id="author" placeholder="author">
+    <input type="date" name="date" id="date">
+    <textarea name="content" id="content" cols="30" rows="10" placeholder="content"></textarea>
+    <select name="content" id="content">
+      <option selected disabled value="">Pasirinkite kategorija</option>
+      <option value="1">Tragedija</option>
+      <option value="2">Komedija</option>
+    </select>
+  </form>
+
+</body>
+
+</html>
