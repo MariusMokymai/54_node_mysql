@@ -15,11 +15,11 @@ POST  http://localhost:3000/api/posts
 Content-Type: application/json
 
 {
-  "title": "POST from rest",
+  "title": "POST from category",
   "author": "James Band",
-  "date": "2000-12-24",
+  "date": "2024-01-02",
   "content": "Some important message....",
-  "cat_id": 1
+  "cat_id": 3
 }
 
 

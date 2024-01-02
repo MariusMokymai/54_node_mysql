@@ -81,7 +81,7 @@ postsRouter.delete('/api/posts/:postId', async (req, res) => {
 // POST /api/posts - sukurtu nauja posta
 postsRouter.post('/api/posts', async (req, res) => {
   console.log('req.body ===', req.body);
-  const { title, author, date, content } = req.body;
+  const { title, author, date, content, cat_id: catId } = req.body;
 
   // validation
 
@@ -89,11 +89,17 @@ postsRouter.post('/api/posts', async (req, res) => {
   try {
     conn = await mysql.createConnection(dbConfig);
     const sql = `
-    INSERT INTO posts (title, author, date, content) 
-    VALUES (?,?,?,?)
+    INSERT INTO posts (title, author, date, content, cat_id) 
+    VALUES (?,?,?,?,?)
     `;
-    const [rowOb] = await conn.execute(sql, [title, author, date, content]);
-    res.json(rowOb);
+    const [rowOb] = await conn.execute(sql, [
+      title,
+      author,
+      date,
+      content,
+      catId,
+    ]);
+    res.status(201).json(rowOb);
   } catch (error) {
     console.warn('single post err', error);
     res.status(500).json('something wrong');

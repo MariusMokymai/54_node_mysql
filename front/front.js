@@ -2,10 +2,13 @@
 console.log('front.js file was loaded');
 
 const catUrl = 'http://localhost:3000/api/categories';
+const postsUrl = 'http://localhost:3000/api/posts';
 
 // parsisiusti kategorijas ir iskonsolinti
 
 const selectEl = document.getElementById('category');
+const newPostForm = document.forms[0];
+
 console.log('selectEl ===', selectEl);
 function getCategories() {
   // parsiusti, iskonsolinti ir grazinti categorijas
@@ -40,4 +43,36 @@ function makeSelectOpt(arr) {
   makeSelectOpt(gotCategoriesArr);
 })();
 
-// sugeneruoti opcijas selectui
+newPostForm.addEventListener('submit', handleNewPost);
+
+function handleNewPost(event) {
+  event.preventDefault();
+  console.log('forma pateikta');
+
+  const { title, author, date, content, category } = newPostForm.elements;
+
+  // surinkti inputus i objekta
+  const newPostObj = {
+    title: title.value,
+    author: author.value,
+    date: date.value,
+    content: content.value,
+    cat_id: +category.value,
+  };
+  console.log('newPostObj ===', newPostObj);
+
+  // siusti i back end
+  fetch(postsUrl, {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify(newPostObj),
+  })
+    .then((resp) => {
+      if (resp.status === 201) {
+        console.log('pavyko sukurti');
+      }
+    })
+    .catch((error) => {
+      console.warn('ivyko klaida:', error);
+    });
+}
