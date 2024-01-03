@@ -20,3 +20,7 @@ VALUES
 -- comments table 
 
 CREATE TABLE `bit_main`.`post_comments` (`comm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `author` VARCHAR(255) NOT NULL , `comment` TEXT NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `post_id` INT UNSIGNED NOT NULL , PRIMARY KEY (`comm_id`)) ENGINE = InnoDB;
+
+-- users table 
+
+CREATE TABLE `bit_main`.`users` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `email` VARCHAR(255) NOT NULL , `password` VARCHAR(255) NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`), UNIQUE `emailUniq` (`email`(255))) ENGINE = InnoDB;
