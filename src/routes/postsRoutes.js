@@ -9,7 +9,14 @@ const postsRouter = express.Router();
 // GET /api/posts - get all posts
 // SELECT * FROM `posts`
 postsRouter.get('/api/posts', async (req, res) => {
-  const sql = 'SELECT * FROM posts';
+  // const sql = 'SELECT * FROM posts';
+  const sql = `
+  SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date, 
+  categories.title AS categoryName
+  FROM posts
+  JOIN categories
+  ON posts.cat_id=categories.cat_id
+  `;
 
   const [postsArr, error] = await getSqlData(sql);
 

@@ -15,6 +15,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
   <title>Document</title>
   <script src="front.js" defer></script>
+  <style>
+    .row {
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
 
 <body class="container">
@@ -33,6 +38,20 @@
     </select>
     <button type="submit">Create Post</button>
   </form>
+
+  <div>
+    <h2>Posts</h2>
+    <ul id="posts-list" class="unlisted row">
+      <!-- <li data-post-id="1" class="post column column-50">
+        <h3>title</h3>
+        <p><i>author</i></p>
+        <p>date</p>
+        <p>content</p>
+        <p>categoryName</p>
+      </li> -->
+
+    </ul>
+  </div>
 
 </body>
 
