@@ -17,6 +17,6 @@ VALUES
 ('Post 4', 'Jane Dow', '2023-12-25', 'Body of post 4'),
 ('Post 5', 'Jane Dow', '2023-12-25', 'Body of post 5')
 
--- get all posts
+-- comments table 
 
-SELECT * FROM `posts`
+CREATE TABLE `bit_main`.`post_comments` (`comm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `author` VARCHAR(255) NOT NULL , `comment` TEXT NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `post_id` INT UNSIGNED NOT NULL , PRIMARY KEY (`comm_id`)) ENGINE = InnoDB;

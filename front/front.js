@@ -107,7 +107,7 @@ function makeOneLi({
   liEl.className = 'post column column-50';
   liEl.dataset.postId = id;
   const formatedDate = new Date(date).toLocaleString('lt-LT', {
-    dateStyle: 'long',
+    dateStyle: 'short',
   });
   liEl.innerHTML = `
   <h3>${title}</h3>
@@ -115,6 +115,7 @@ function makeOneLi({
   <p>${formatedDate}</p>
   <p>${content}</p>
   <p>${categoryName}</p>
+  <p>comment count: 1</p>
   `;
   return liEl;
 }
