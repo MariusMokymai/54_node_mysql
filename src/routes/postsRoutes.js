@@ -11,11 +11,14 @@ const postsRouter = express.Router();
 postsRouter.get('/api/posts', async (req, res) => {
   // const sql = 'SELECT * FROM posts';
   const sql = `
-  SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date, 
+  SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date, COUNT(post_comments.comm_id) AS commentCount,
   categories.title AS categoryName
   FROM posts
   JOIN categories
   ON posts.cat_id=categories.cat_id
+  LEFT JOIN post_comments
+  ON post_comments.post_id=posts.post_id
+  GROUP BY posts.post_id
   `;
 
   const [postsArr, error] = await getSqlData(sql);

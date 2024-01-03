@@ -101,6 +101,7 @@ function makeOneLi({
   date,
   categoryName,
   content,
+  commentCount,
 }) {
   // sukurti viena html el is objekto
   const liEl = document.createElement('li');
@@ -109,14 +110,17 @@ function makeOneLi({
   const formatedDate = new Date(date).toLocaleString('lt-LT', {
     dateStyle: 'short',
   });
+  const isCommentsOrNot =
+    commentCount > 0 ? `<p>comment count: ${commentCount}</p>` : '';
   liEl.innerHTML = `
   <h3>${title}</h3>
   <p><i>${author}</i></p>
   <p>${formatedDate}</p>
   <p>${content}</p>
   <p>${categoryName}</p>
-  <p>comment count: 1</p>
+  ${isCommentsOrNot}
   `;
+
   return liEl;
 }
 
