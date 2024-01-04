@@ -9,15 +9,13 @@ const authRouter = express.Router();
 // POST /api/auth/login - priloginti vartotoja
 authRouter.post('/api/auth/login', async (req, res, next) => {
   // pasiimti email, password is req.body
-  const { email, password } = req.body;
+  const { email, password: plainPassword } = req.body;
   // paieskoti ar yra vartotojas tokiu email
   const sql = 'SELECT * FROM `users` WHERE `email`= ?';
   const [usersArr, error] = await getSqlData(sql, [email]);
 
-  if (error) {
-    res.status(500).json('server error');
-    return;
-  }
+  if (error) return next(error);
+
   console.log('usersArr ===', usersArr);
   // neradom - pranesam kad email not found
   if (usersArr.length === 0) {
@@ -27,7 +25,7 @@ authRouter.post('/api/auth/login', async (req, res, next) => {
 
   // radom - palyginti ar surasto objekto slaptazodziai sutampa
   const foundUser = usersArr[0];
-  if (foundUser.password !== password) {
+  if (!bcrypt.compareSync(plainPassword, foundUser.password)) {
     // jei nesutampa - 'email or passwod do not match 400'
     next({ message: 'email or passwod do not match', status: 400 });
     return;
@@ -35,7 +33,10 @@ authRouter.post('/api/auth/login', async (req, res, next) => {
 
   // jei sutampa - 200 successfull login
 
-  res.json('login success');
+  res.json({
+    msg: 'Login success',
+    token: 'asdasdasd asda sdas dasd ',
+  });
 });
 
 authRouter.post('/api/auth/register', async (req, res, next) => {
