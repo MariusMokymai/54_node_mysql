@@ -32,7 +32,7 @@ postsRouter.get('/api/posts', async (req, res, next) => {
 postsRouter.get('/api/posts/:postId', async (req, res, next) => {
   const { postId } = req.params;
 
-  const sql = 'SELECT * FROM posts WHERE post_id=?';
+  const sql = 'SELECT * FROM post WHERE post_id=?';
   // await getSqlData(sql, [postId]);
   const [postsArr, error] = await getSqlData(sql, [postId]);
 
@@ -43,7 +43,8 @@ postsRouter.get('/api/posts/:postId', async (req, res, next) => {
     return;
   }
   if (postsArr.length === 0) {
-    res.status(404).json({ msg: 'post not found' });
+    // res.status(404).json({ msg: 'post not found' });
+    next({ message: 'posts not found', status: 404 });
     return;
   }
 

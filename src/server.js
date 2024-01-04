@@ -31,6 +31,10 @@ app.use((err, req, res, next) => {
 
   console.log('err ===', err);
 
+  if (err.status && err.status === 404) {
+    return res.status(err.status).json({ error: err.message });
+  }
+
   if (err.errno === 1146) {
     return res.status(400).json({
       error: err.sqlMessage || 'no such table',
