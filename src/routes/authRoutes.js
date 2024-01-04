@@ -5,7 +5,7 @@ const authRouter = express.Router();
 
 // routes
 // POST /api/auth/login - priloginti vartotoja
-authRouter.post('/api/auth/login', async (req, res) => {
+authRouter.post('/api/auth/login', async (req, res, next) => {
   // pasiimti email, password is req.body
   const { email, password } = req.body;
   // paieskoti ar yra vartotojas tokiu email
@@ -27,13 +27,24 @@ authRouter.post('/api/auth/login', async (req, res) => {
   const foundUser = usersArr[0];
   if (foundUser.password !== password) {
     // jei nesutampa - 'email or passwod do not match 400'
-
+    next({ message: 'email or passwod do not match', status: 400 });
     return;
   }
 
   // jei sutampa - 200 successfull login
 
   res.json('login success');
+});
+
+authRouter.post('/api/auth/register', async (req, res, next) => {
+  const { email, password } = req.body;
+  console.log('req.body ===', req.body);
+  const sql = 'INSERT INTO users (email, password) VALUES (?,?)';
+  const [rezObj, error] = await getSqlData(sql, [email, password]);
+
+  if (error) return next(error);
+
+  res.status(201).json(rezObj);
 });
 
 module.exports = authRouter;

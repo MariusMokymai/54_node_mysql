@@ -32,7 +32,7 @@ Content-Type: application/json
 
 {
   "email": "james@bond.com",
-  "password": "123456"
+  "password": "1234567"
 }
 
 ### REGISTER User
