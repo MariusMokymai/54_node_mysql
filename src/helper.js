@@ -10,7 +10,7 @@ async function getSqlData(sql, argArr = []) {
     const [rows] = await connection.execute(sql, argArr);
     return [rows, null];
   } catch (error) {
-    console.warn('getSqlData', error);
+    // console.warn('getSqlData', error);
     return [null, error];
   } finally {
     // atsijungiam
@@ -18,6 +18,13 @@ async function getSqlData(sql, argArr = []) {
     // connection?.end();
     console.log('after connection end');
   }
+}
+async function getSqlDataNoTry(sql, argArr = []) {
+  const connection = await mysql.createConnection(dbConfig);
+
+  const [rows] = await connection.execute(sql, argArr);
+  if (connection) connection.end();
+  return [rows, null];
 }
 
 // const [postsArr, error] = await getSqlData();
@@ -30,4 +37,5 @@ async function getSqlData(sql, argArr = []) {
 
 module.exports = {
   getSqlData,
+  getSqlDataNoTry,
 };

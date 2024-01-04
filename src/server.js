@@ -25,6 +25,22 @@ app.use('/', postsRouter);
 app.use('/', categoriesRouter);
 app.use('/', authRouter);
 
+// musu errro handling
+app.use((err, req, res, next) => {
+  console.log('<<<<musu errror handling>>>>>');
+
+  console.log('err ===', err);
+
+  if (err.errno === 1146) {
+    return res.status(400).json({
+      error: err.sqlMessage || 'no such table',
+    });
+  }
+
+  res.status(500);
+  res.json('Server error (musu errror handling)');
+});
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
