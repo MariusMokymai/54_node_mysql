@@ -1,4 +1,6 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
+
 const { getSqlData } = require('../helper');
 
 const authRouter = express.Router();
@@ -39,8 +41,10 @@ authRouter.post('/api/auth/login', async (req, res, next) => {
 authRouter.post('/api/auth/register', async (req, res, next) => {
   const { email, password } = req.body;
   console.log('req.body ===', req.body);
+  // hash slaptazodis
+  const hashPassword = bcrypt.hashSync(password, 10);
   const sql = 'INSERT INTO users (email, password) VALUES (?,?)';
-  const [rezObj, error] = await getSqlData(sql, [email, password]);
+  const [rezObj, error] = await getSqlData(sql, [email, hashPassword]);
 
   if (error) return next(error);
 
