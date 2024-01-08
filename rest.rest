@@ -3,6 +3,7 @@ GET http://localhost:3000/
 
 ### get all posts
 GET http://localhost:3000/api/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDQ3MTcwMTUsImV4cCI6MTcwNDcyMDYxNX0.gxWPcsx8rMnRt5zJtHfva-bGT087ERNDOd7dSemGo_k
 
 ### get single post
 GET http://localhost:3000/api/posts/3

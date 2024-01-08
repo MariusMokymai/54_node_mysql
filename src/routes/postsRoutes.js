@@ -2,14 +2,14 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const { getSqlData } = require('../helper');
-const { dbConfig, jwtSecret } = require('../config');
-const jwt = require('jsonwebtoken');
+const { dbConfig } = require('../config');
+const { authorizeToken } = require('../middleware');
 
 const postsRouter = express.Router();
 
 // GET /api/posts - get all posts
 // SELECT * FROM `posts`
-postsRouter.get('/api/posts', async (req, res, next) => {
+postsRouter.get('/api/posts', authorizeToken, async (req, res, next) => {
   // const sql = 'SELECT * FROM posts';
   const sql = `
   SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date, COUNT(post_comments.comm_id) AS commentCount,
@@ -28,21 +28,6 @@ postsRouter.get('/api/posts', async (req, res, next) => {
 
   res.json(postsArr);
 });
-
-function authorizeToken(req, res, next) {
-  console.log('authorizeToken in progress');
-  try {
-    console.log('req.headers.authorization ===', req.headers.authorization);
-    const token = req.headers.authorization.split(' ')[1];
-    if (!token) throw new Error('no token');
-    const decoded = jwt.verify(token, jwtSecret);
-    console.log('decoded ===', decoded);
-    next();
-  } catch (error) {
-    console.log('error ===', error);
-    res.status(401).json('unauthorized');
-  }
-}
 
 // GET /api/posts/2 - get post su id 2
 postsRouter.get(
@@ -75,37 +60,41 @@ postsRouter.get(
 );
 
 // DELETE /api/posts/2 - get post su id 2
-postsRouter.delete('/api/posts/:postId', async (req, res, next) => {
-  const { postId } = req.params;
-  let conn;
-  try {
-    conn = await mysql.createConnection(dbConfig);
-    const sql = 'DELETE FROM posts WHERE post_id=? LIMIT 1';
-    const [rows] = await conn.execute(sql, [postId]);
-    console.log('rows ===', rows);
-    // pavyko istrinti jei
-    if (rows.affectedRows === 1) {
-      res.json({ msg: `post with id ${postId} was deleted` });
-      return;
+postsRouter.delete(
+  '/api/posts/:postId',
+  authorizeToken,
+  async (req, res, next) => {
+    const { postId } = req.params;
+    let conn;
+    try {
+      conn = await mysql.createConnection(dbConfig);
+      const sql = 'DELETE FROM posts WHERE post_id=? LIMIT 1';
+      const [rows] = await conn.execute(sql, [postId]);
+      console.log('rows ===', rows);
+      // pavyko istrinti jei
+      if (rows.affectedRows === 1) {
+        res.json({ msg: `post with id ${postId} was deleted` });
+        return;
+      }
+      // rows.affectedRows !== 1
+      res.status(400).json({
+        msg: 'no rows afected',
+        rows,
+      });
+    } catch (error) {
+      console.warn('DELETE FROM posts error');
+      // res.status(500).json('something wrong');
+      next(error);
+    } finally {
+      // atsijungiam
+      if (conn) conn.end();
+      // conn?.end();
     }
-    // rows.affectedRows !== 1
-    res.status(400).json({
-      msg: 'no rows afected',
-      rows,
-    });
-  } catch (error) {
-    console.warn('DELETE FROM posts error');
-    // res.status(500).json('something wrong');
-    next(error);
-  } finally {
-    // atsijungiam
-    if (conn) conn.end();
-    // conn?.end();
   }
-});
+);
 
 // POST /api/posts - sukurtu nauja posta
-postsRouter.post('/api/posts', async (req, res, next) => {
+postsRouter.post('/api/posts', authorizeToken, async (req, res, next) => {
   console.log('req.body ===', req.body);
   const { title, author, date, content, cat_id: catId } = req.body;
 

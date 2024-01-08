@@ -1,5 +1,6 @@
+const jwt = require('jsonwebtoken');
 const mysql = require('mysql2/promise');
-const { dbConfig } = require('./config');
+const { dbConfig, jwtSecret } = require('./config');
 
 async function getSqlData(sql, argArr = []) {
   let connection;
@@ -27,6 +28,10 @@ async function getSqlDataNoTry(sql, argArr = []) {
   return [rows, null];
 }
 
+function makeJWTToken(data) {
+  return jwt.sign(data, jwtSecret, { expiresIn: '1h' });
+}
+
 // const [postsArr, error] = await getSqlData();
 
 // if (error) {
@@ -38,4 +43,5 @@ async function getSqlDataNoTry(sql, argArr = []) {
 module.exports = {
   getSqlData,
   getSqlDataNoTry,
+  makeJWTToken,
 };
