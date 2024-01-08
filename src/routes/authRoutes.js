@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const { getSqlData } = require('../helper');
+const { jwtSecret } = require('../config');
 
 const authRouter = express.Router();
 
@@ -31,11 +33,15 @@ authRouter.post('/api/auth/login', async (req, res, next) => {
     return;
   }
 
+  // sugeneruoti token
+  const payload = { email: email, sub: foundUser.id };
+  const token = jwt.sign(payload, jwtSecret, { expiresIn: '1h' });
+
   // jei sutampa - 200 successfull login
 
   res.json({
     msg: 'Login success',
-    token: 'asdasdasd asda sdas dasd ',
+    token: token,
   });
 });
 
