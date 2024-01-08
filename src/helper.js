@@ -32,14 +32,6 @@ function makeJWTToken(data) {
   return jwt.sign(data, jwtSecret, { expiresIn: '1h' });
 }
 
-// const [postsArr, error] = await getSqlData();
-
-// if (error) {
-//   // euston we have a proplem
-// }
-
-// console.log('postsArr ===', postsArr);
-
 module.exports = {
   getSqlData,
   getSqlDataNoTry,
