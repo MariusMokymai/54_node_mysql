@@ -32,13 +32,15 @@ postsRouter.get('/api/posts', async (req, res, next) => {
 function authorizeToken(req, res, next) {
   console.log('authorizeToken in progress');
   try {
-    const token = 'aasdasd';
+    console.log('req.headers.authorization ===', req.headers.authorization);
+    const token = req.headers.authorization.split(' ')[1];
+    if (!token) throw new Error('no token');
     const decoded = jwt.verify(token, jwtSecret);
     console.log('decoded ===', decoded);
     next();
   } catch (error) {
     console.log('error ===', error);
-    res.status(400).json('unauthorized');
+    res.status(401).json('unauthorized');
   }
 }
 
