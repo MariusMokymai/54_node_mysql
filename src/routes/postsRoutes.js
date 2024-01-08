@@ -2,7 +2,8 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const { getSqlData } = require('../helper');
-const { dbConfig } = require('../config');
+const { dbConfig, jwtSecret } = require('../config');
+const jwt = require('jsonwebtoken');
 
 const postsRouter = express.Router();
 
@@ -28,29 +29,48 @@ postsRouter.get('/api/posts', async (req, res, next) => {
   res.json(postsArr);
 });
 
+function authorizeToken(req, res, next) {
+  console.log('authorizeToken in progress');
+  try {
+    const token = 'aasdasd';
+    const decoded = jwt.verify(token, jwtSecret);
+    console.log('decoded ===', decoded);
+    next();
+  } catch (error) {
+    console.log('error ===', error);
+    res.status(400).json('unauthorized');
+  }
+}
+
 // GET /api/posts/2 - get post su id 2
-postsRouter.get('/api/posts/:postId', async (req, res, next) => {
-  const { postId } = req.params;
+postsRouter.get(
+  '/api/posts/:postId',
+  authorizeToken,
+  async (req, res, next) => {
+    const { postId } = req.params;
 
-  const sql = 'SELECT * FROM post WHERE post_id=?';
-  // await getSqlData(sql, [postId]);
-  const [postsArr, error] = await getSqlData(sql, [postId]);
+    // ar autorizuotas?
 
-  if (error) return next(error);
+    const sql = 'SELECT * FROM posts WHERE post_id=?';
+    // await getSqlData(sql, [postId]);
+    const [postsArr, error] = await getSqlData(sql, [postId]);
 
-  if (postsArr.length === 1) {
-    res.json(postsArr[0]);
-    return;
+    if (error) return next(error);
+
+    if (postsArr.length === 1) {
+      res.json(postsArr[0]);
+      return;
+    }
+    if (postsArr.length === 0) {
+      // res.status(404).json({ msg: 'post not found' });
+      next({ message: 'posts not found', status: 404 });
+      return;
+    }
+
+    // radom daugiau nei viena, neradom nei vieno
+    res.status(400).json(postsArr);
   }
-  if (postsArr.length === 0) {
-    // res.status(404).json({ msg: 'post not found' });
-    next({ message: 'posts not found', status: 404 });
-    return;
-  }
-
-  // radom daugiau nei viena, neradom nei vieno
-  res.status(400).json(postsArr);
-});
+);
 
 // DELETE /api/posts/2 - get post su id 2
 postsRouter.delete('/api/posts/:postId', async (req, res, next) => {
