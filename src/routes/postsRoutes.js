@@ -3,7 +3,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const { getSqlData } = require('../helper');
 const { dbConfig } = require('../config');
-const { authorizeToken } = require('../middleware');
+const { authorizeToken, validatePostBody } = require('../middleware');
 
 const postsRouter = express.Router();
 
@@ -94,36 +94,41 @@ postsRouter.delete(
 );
 
 // POST /api/posts - sukurtu nauja posta
-postsRouter.post('/api/posts', authorizeToken, async (req, res, next) => {
-  console.log('req.body ===', req.body);
-  const { title, author, date, content, cat_id: catId } = req.body;
+postsRouter.post(
+  '/api/posts',
+  authorizeToken,
+  validatePostBody,
+  async (req, res, next) => {
+    console.log('req.body ===', req.body);
+    const { title, author, date, content, cat_id: catId } = req.body;
 
-  // validation
+    // validation
 
-  let conn;
-  try {
-    conn = await mysql.createConnection(dbConfig);
-    const sql = `
+    let conn;
+    try {
+      conn = await mysql.createConnection(dbConfig);
+      const sql = `
     INSERT INTO posts (title, author, date, content, cat_id) 
     VALUES (?,?,?,?,?)
     `;
-    const [rowOb] = await conn.execute(sql, [
-      title,
-      author,
-      date,
-      content,
-      catId,
-    ]);
-    res.status(201).json(rowOb);
-  } catch (error) {
-    console.warn('INSERT INTO posts err');
-    next(error);
-  } finally {
-    // atsijungiam
-    if (conn) conn.end();
-    // conn?.end();
+      const [rowOb] = await conn.execute(sql, [
+        title,
+        author,
+        date,
+        content,
+        catId,
+      ]);
+      res.status(201).json(rowOb);
+    } catch (error) {
+      console.warn('INSERT INTO posts err');
+      next(error);
+    } finally {
+      // atsijungiam
+      if (conn) conn.end();
+      // conn?.end();
+    }
   }
-});
+);
 // exportuot
 
 module.exports = postsRouter;
