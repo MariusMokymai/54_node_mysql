@@ -27,8 +27,12 @@ async function validatePostBody(req, res, next) {
   const postSchema = Yup.object({
     title: Yup.string().trim().min(3).required('Privalomas laukas'),
     author: Yup.string().trim().min(3).required(),
-    date: Yup.date().required(),
+    date: Yup.date().min('1900-01-01').required('Privalomas laukas'),
     content: Yup.string().trim().min(5, 'Prasom placiau').required(),
+    cat_id: Yup.number()
+      .integer()
+      .min(1, 'Bukite malonus pasirinkite kategorija')
+      .required(),
   });
 
   try {
@@ -38,8 +42,11 @@ async function validatePostBody(req, res, next) {
   } catch (error) {
     console.log('error ===', error);
     const errFormatedObj = {};
-    const formatedErrors = error.inner.forEach((eObj) => {
+    error.inner.forEach((eObj) => {
       errFormatedObj[eObj.path] = eObj.message;
+      if (eObj.path === 'date') {
+        errFormatedObj[eObj.path] = 'date is invalid';
+      }
     });
 
     res.status(400).json(errFormatedObj);

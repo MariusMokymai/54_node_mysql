@@ -18,9 +18,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDQ5NzQzODUsImV4cCI6MTcwNDk3Nzk4NX0.lxYb51kxKlrM4IXxZLNPjF1Hhpc6PXHr9i4JvMIERBQ
 
 {
-  "title": "swerwerwe",
+  "title": "",
   "author": "ssdfsdf",
-  "date": "2024-01-02",
+  "date": "",
   "content": "dfgsfgdfgdfg",
   "cat_id": 3
 }
