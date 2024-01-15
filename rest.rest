@@ -47,3 +47,15 @@ Content-Type: application/json
   "email": "james@james.com",
   "password": "123456"
 }
+
+### get all posts comments
+GET http://localhost:3000/api/comments/post/5
+
+### get all posts comments
+POST http://localhost:3000/api/comments/post/5
+Content-Type:  application/json
+
+{
+  "author": "Jane",
+  "comment": "Labai informatyvu, labai...."
+}

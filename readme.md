@@ -12,3 +12,9 @@
 3. create connection
 4. make query/sql
 5. priklausomai nuo rezultato sureguot
+
+## naujas resursas pvz books
+
+1. booksController (get all, get signle)
+2. booksRoutes (get all, single ir pan)
+3. import booksRouter i server.js

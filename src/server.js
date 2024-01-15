@@ -6,6 +6,7 @@ const cors = require('cors');
 const postsRouter = require('./routes/postsRoutes');
 const categoriesRouter = require('./routes/categoryRoutes');
 const authRouter = require('./routes/authRoutes');
+const commentsRouter = require('./routes/commentsRoutes');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 app.use('/', postsRouter);
 app.use('/', categoriesRouter);
 app.use('/', authRouter);
+app.use('/', commentsRouter);
 
 // musu errro handling
 app.use((err, req, res, next) => {
