@@ -86,13 +86,7 @@ module.exports.create = async (req, res, next) => {
   INSERT INTO posts (title, author, date, content, cat_id) 
   VALUES (?,?,?,?,?)
   `;
-    const [rowOb] = await conn.execute(sql, [
-      title,
-      author,
-      date,
-      content,
-      catId,
-    ]);
+    const [rowOb] = await conn.execute(sql, [title, author, date, content, catId]);
     res.status(201).json(rowOb);
   } catch (error) {
     console.warn('INSERT INTO posts err');
