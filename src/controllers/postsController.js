@@ -2,20 +2,22 @@ const mysql = require('mysql2/promise');
 const { dbConfig } = require('../config');
 const { getSqlData } = require('../helper');
 
+const postModel = require('../models/postsModel');
+
 module.exports.getAll = async (req, res, next) => {
   // const sql = 'SELECT * FROM posts';
-  const sql = `
-  SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date, COUNT(post_comments.comm_id) AS commentCount,
-  categories.title AS categoryName
-  FROM posts
-  JOIN categories
-  ON posts.cat_id=categories.cat_id
-  LEFT JOIN post_comments
-  ON post_comments.post_id=posts.post_id
-  GROUP BY posts.post_id
-  `;
+  // const sql = `
+  // SELECT posts.post_id, posts.title, posts.author, posts.content, posts.date, COUNT(post_comments.comm_id) AS commentCount,
+  // categories.title AS categoryName
+  // FROM posts
+  // JOIN categories
+  // ON posts.cat_id=categories.cat_id
+  // LEFT JOIN post_comments
+  // ON post_comments.post_id=posts.post_id
+  // GROUP BY posts.post_id
+  // `;
 
-  const [postsArr, error] = await getSqlData(sql);
+  const [postsArr, error] = await postModel.getAllPosts();
 
   if (error) return next(error);
 
