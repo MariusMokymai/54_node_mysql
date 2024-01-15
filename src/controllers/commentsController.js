@@ -33,9 +33,9 @@ module.exports.createComment = async (req, res, next) => {
     next('System error');
     return;
   }
-
+  console.log('resultObj ===', resultObj);
   if (resultObj.affectedRows === 1) {
-    res.status(201).json({ msg: 'success' });
+    res.status(201).json({ msg: 'success', comm_id: resultObj.insertId });
     return;
   }
 
