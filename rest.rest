@@ -7,20 +7,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQ
 
 ### get single post
 GET http://localhost:3000/api/posts/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDQ3MTcwMTUsImV4cCI6MTcwNDcyMDYxNX0.gxWPcsx8rMnRt5zJtHfva-bGT087ERNDOd7dSemGo_k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDUzMTkyMzIsImV4cCI6MTcwNTMyMjgzMn0.YUvmL44foGec-JROaHNuLtMSh3n4qRBqrsqYWr_t1ZI
 
 ### DELETE single post
-DELETE  http://localhost:3000/api/posts/7
+DELETE  http://localhost:3000/api/posts/17
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDUzMTkyMzIsImV4cCI6MTcwNTMyMjgzMn0.YUvmL44foGec-JROaHNuLtMSh3n4qRBqrsqYWr_t1ZI
 
 ### POST CREATE POST
 POST  http://localhost:3000/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDQ5NzQzODUsImV4cCI6MTcwNDk3Nzk4NX0.lxYb51kxKlrM4IXxZLNPjF1Hhpc6PXHr9i4JvMIERBQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDUzMTkyMzIsImV4cCI6MTcwNTMyMjgzMn0.YUvmL44foGec-JROaHNuLtMSh3n4qRBqrsqYWr_t1ZI
 
 {
-  "title": "",
+  "title": "Apie kazka",
   "author": "ssdfsdf",
-  "date": "",
+  "date": "2024-01-01",
   "content": "dfgsfgdfgdfg",
   "cat_id": 3
 }
@@ -43,6 +44,6 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "james@secure.com",
+  "email": "james@james.com",
   "password": "123456"
 }
