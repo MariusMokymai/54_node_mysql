@@ -14,7 +14,7 @@ postsRouter.get('/api/posts', authorizeToken, postsController.getAll);
 postsRouter.get('/api/posts/:postId', authorizeToken, postsController.getSingle);
 
 // DELETE /api/posts/2 - get post su id 2
-postsRouter.delete('/api/posts/:postId', authorizeToken, checkIfMine, postsController.delete);
+postsRouter.delete('/api/posts/:postId', authorizeToken, postsController.delete);
 
 // POST /api/posts - sukurtu nauja posta
 postsRouter.post('/api/posts', authorizeToken, validatePostBody, postsController.create);

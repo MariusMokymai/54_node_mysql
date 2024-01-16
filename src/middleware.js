@@ -13,6 +13,11 @@ function authorizeToken(req, res, next) {
     if (!token) throw new Error('no token');
     const decoded = jwt.verify(token, jwtSecret);
     console.log('decoded ===', decoded);
+    req.userEmail = decoded.email;
+    req.userId = decoded.sub;
+
+    console.log('req.userEmail ===', req.userEmail);
+    console.log('req.userId ===', req.userId);
     next();
   } catch (error) {
     console.log('error ===', error);

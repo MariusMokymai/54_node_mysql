@@ -3,15 +3,15 @@ GET http://localhost:3000/
 
 ### get all posts
 GET http://localhost:3000/api/posts/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDU0MDQ2ODUsImV4cCI6MTcwNTQwODI4NX0.p7jd0PqN6SSisLCKN6L_rmCApCIQv8xnTC3_RQbY0_c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDU0MDg2MDYsImV4cCI6MTcwNTQxMjIwNn0.jbfcCUPXztR-x5AL6F8l8QfmPGlG3mZP5OS46QGULI0
 
 ### get single post
 GET http://localhost:3000/api/posts/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDU0MDQ2ODUsImV4cCI6MTcwNTQwODI4NX0.p7jd0PqN6SSisLCKN6L_rmCApCIQv8xnTC3_RQbY0_c
 
 ### DELETE single post
-DELETE  http://localhost:3000/api/posts/17
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDU0MDQ2ODUsImV4cCI6MTcwNTQwODI4NX0.p7jd0PqN6SSisLCKN6L_rmCApCIQv8xnTC3_RQbY0_c
+DELETE  http://localhost:3000/api/posts/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGJvbmQuY29tIiwic3ViIjoxLCJpYXQiOjE3MDU0MDg2MDYsImV4cCI6MTcwNTQxMjIwNn0.jbfcCUPXztR-x5AL6F8l8QfmPGlG3mZP5OS46QGULI0
 
 ### POST CREATE POST
 POST  http://localhost:3000/api/posts

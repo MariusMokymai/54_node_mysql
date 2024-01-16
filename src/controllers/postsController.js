@@ -61,13 +61,18 @@ module.exports.getSingle = async (req, res, next) => {
 };
 module.exports.delete = async (req, res, next) => {
   const { postId } = req.params;
-
-  // isitikinti kad posto autorius yra tas kuris nori istrinti
-  console.log('req.userEmail ===', req.userEmail);
-
   let conn;
   try {
     conn = await mysql.createConnection(dbConfig);
+    // isitikinti kad posto autorius yra tas kuris nori istrinti
+    const sql1 = 'SELECT * FROM posts WHERE post_id=?';
+    const [rows1] = await conn.execute(sql1, [postId]);
+
+    if (+rows1[0].user_id !== +req.userId) {
+      next({ status: 401, message: 'Not allowed' });
+      return;
+    }
+
     const sql = 'DELETE FROM posts WHERE post_id=? LIMIT 1';
     const [rows] = await conn.execute(sql, [postId]);
     console.log('rows ===', rows);
