@@ -4,7 +4,14 @@ const { getSqlData } = require('../helper');
 module.exports.getPostComments = async (req, res, next) => {
   const { postId } = req.params;
 
-  const sql = 'SELECT * FROM `post_comments` WHERE `post_id`=?';
+  const sql = `
+  SELECT post_comments.comm_id, post_comments.author, post_comments.comment, post_comments.created_at, 
+  post_comments.post_id, users.email AS userEmail
+  FROM post_comments 
+  JOIN users
+  ON post_comments.user_id=users.id
+  WHERE post_id=?
+  `;
 
   const [commentsArr, error] = await getSqlData(sql, [postId]);
 
