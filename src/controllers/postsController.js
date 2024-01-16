@@ -28,7 +28,19 @@ module.exports.getSingle = async (req, res, next) => {
 
   // ar autorizuotas?
 
-  const sql = 'SELECT * FROM posts WHERE post_id=?';
+  const sql = `
+  SELECT posts.post_id, posts.title, posts.author, users.email AS userEmail, posts.content, posts.date, COUNT(post_comments.comm_id) AS commentCount,
+  categories.title AS categoryName
+  FROM posts
+  JOIN categories
+  ON posts.cat_id=categories.cat_id
+  LEFT JOIN post_comments
+  ON post_comments.post_id=posts.post_id
+  LEFT JOIN users
+  ON users.id=posts.user_id
+  WHERE posts.post_id=?
+  GROUP BY posts.post_id
+  `;
   // await getSqlData(sql, [postId]);
   const [postsArr, error] = await getSqlData(sql, [postId]);
 
@@ -85,9 +97,9 @@ module.exports.create = async (req, res, next) => {
   try {
     conn = await mysql.createConnection(dbConfig);
     const sql = `
-  INSERT INTO posts (title, author, date, content, cat_id) 
-  VALUES (?,?,?,?,?)
-  `;
+    INSERT INTO posts (title, author, date, content, cat_id) 
+    VALUES (?,?,?,?,?)
+    `;
     const [rowOb] = await conn.execute(sql, [title, author, date, content, catId]);
     res.status(201).json(rowOb);
   } catch (error) {
