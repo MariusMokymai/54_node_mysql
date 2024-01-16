@@ -1,6 +1,6 @@
 // sukurti routeri
 const express = require('express');
-const { authorizeToken, validatePostBody, checkIfMine } = require('../middleware');
+const { authorizeToken, validatePostBody } = require('../middleware');
 
 const postsController = require('../controllers/postsController');
 

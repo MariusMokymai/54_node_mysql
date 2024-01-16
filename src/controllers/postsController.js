@@ -99,6 +99,7 @@ module.exports.delete = async (req, res, next) => {
 module.exports.create = async (req, res, next) => {
   console.log('req.body ===', req.body);
   const { title, author, date, content, cat_id: catId } = req.body;
+  const { userId } = req;
 
   // validation
 
@@ -106,10 +107,10 @@ module.exports.create = async (req, res, next) => {
   try {
     conn = await mysql.createConnection(dbConfig);
     const sql = `
-    INSERT INTO posts (title, author, date, content, cat_id) 
-    VALUES (?,?,?,?,?)
+    INSERT INTO posts (title, author, date, content, cat_id, user_id) 
+    VALUES (?,?,?,?,?,?)
     `;
-    const [rowOb] = await conn.execute(sql, [title, author, date, content, catId]);
+    const [rowOb] = await conn.execute(sql, [title, author, date, content, catId, userId]);
     res.status(201).json(rowOb);
   } catch (error) {
     console.warn('INSERT INTO posts err');
