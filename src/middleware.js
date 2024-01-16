@@ -20,6 +20,23 @@ function authorizeToken(req, res, next) {
   }
 }
 
+function checkIfMine(req, res, next) {
+  console.log('authorizeToken in progress');
+  try {
+    console.log('req.headers.authorization ===', req.headers.authorization);
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) throw new Error('no token');
+    const decoded = jwt.verify(token, jwtSecret);
+    console.log('decoded ===', decoded);
+    // ar decoded.email yra toks pat kaip posto kuri noriu istrinti
+    req.userEmail = decoded.email;
+    next();
+  } catch (error) {
+    console.log('error ===', error);
+    res.status(401).json('unauthorized');
+  }
+}
+
 async function validatePostBody(req, res, next) {
   console.log('req.body ===', req.body);
   const { title, author, date, content, cat_id: catId } = req.body;
@@ -29,10 +46,7 @@ async function validatePostBody(req, res, next) {
     author: Yup.string().trim().min(3).required(),
     date: Yup.date().min('1900-01-01').required('Privalomas laukas'),
     content: Yup.string().trim().min(5, 'Prasom placiau').required(),
-    cat_id: Yup.number()
-      .integer()
-      .min(1, 'Bukite malonus pasirinkite kategorija')
-      .required(),
+    cat_id: Yup.number().integer().min(1, 'Bukite malonus pasirinkite kategorija').required(),
   });
 
   try {
@@ -56,4 +70,5 @@ async function validatePostBody(req, res, next) {
 module.exports = {
   authorizeToken,
   validatePostBody,
+  checkIfMine,
 };

@@ -61,6 +61,10 @@ module.exports.getSingle = async (req, res, next) => {
 };
 module.exports.delete = async (req, res, next) => {
   const { postId } = req.params;
+
+  // isitikinti kad posto autorius yra tas kuris nori istrinti
+  console.log('req.userEmail ===', req.userEmail);
+
   let conn;
   try {
     conn = await mysql.createConnection(dbConfig);
