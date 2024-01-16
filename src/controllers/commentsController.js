@@ -22,9 +22,17 @@ module.exports.createComment = async (req, res, next) => {
 
   const { author, comment } = req.body;
 
-  const argArr = [author, comment, postId];
+  const { userId } = req;
 
-  const sql = 'INSERT INTO `post_comments` (`author`, `comment`, `post_id`) VALUES (?, ?, ?)';
+  if (!userId) {
+    res.sendStatus(401);
+    return;
+  }
+
+  const argArr = [author, comment, postId, userId];
+
+  const sql =
+    'INSERT INTO `post_comments` (`author`, `comment`, `post_id`, user_id) VALUES (?, ?, ?, ?)';
 
   const [resultObj, error] = await getSqlData(sql, argArr);
 
